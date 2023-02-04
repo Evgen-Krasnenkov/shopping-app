@@ -1,47 +1,43 @@
 package com.kras.shoppingapp.controller;
 
-import com.kras.shoppingapp.model.Product;
+import com.kras.shoppingapp.dto.ProductRequestDto;
+import com.kras.shoppingapp.dto.ProductResponseDto;
+import com.kras.shoppingapp.dto.mapper.ProductMapper;
 import com.kras.shoppingapp.service.ProductService;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/products")
 public class ProductController {
     private final ProductService productService;
+    private final ProductMapper productMapper;
 
-    public ProductController(ProductService productService) {
+    public ProductController(ProductService productService, ProductMapper productMapper) {
         this.productService = productService;
+        this.productMapper = productMapper;
     }
 
-    @GetMapping("/inject")
-    public List<Product> saveProduct() {
-        for (int i = 0; i < 100; i += 10) {
-            Product product = new Product();
-            product.setTitle("iPhone" + i);
-            product.setPrice(BigDecimal.valueOf(1399 + 10 * i));
-            productService.save(product);
-        }
-        return productService.findAll();
+    @PostMapping
+    public ProductResponseDto createProduct(@RequestBody ProductRequestDto productRequestDto){
+        return productMapper.toResponseDto(
+                productService.save(productMapper.toModel(productRequestDto)));
     }
 
-    @GetMapping("/products")
-    public List<Product> getAll(){
-        return productService.findAll();
+    @GetMapping
+    public List<ProductResponseDto> getAll(){
+        return productService.findAll()
+                .stream()
+                .map(productMapper::toResponseDto)
+                .collect(Collectors.toList());
     }
 
-    @GetMapping("/products/")
-    public List<Product> findAllByPriceBetween(@RequestParam(value="from", required=true)long from, @RequestParam(value="to", required=true) BigDecimal to){
-        List<Product> allByPriceBetween = productService.findAllByPriceBetween(BigDecimal.valueOf(from), to);
-        allByPriceBetween.forEach(System.out::println);
-        return allByPriceBetween;
+    @GetMapping(value = "/{id}")
+    public ProductResponseDto getById(@PathVariable Long id){
+        return productMapper.toResponseDto(productService.getById(id));
     }
 
-    @GetMapping("/products/{namePart}")
-    public List<Product> findAllProductsContain(@PathVariable String namePart){
-        List<Product> allProductsContain = productService.findAllProductsContain(namePart);
-        return allProductsContain;
-    }
 }

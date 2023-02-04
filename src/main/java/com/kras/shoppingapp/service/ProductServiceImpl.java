@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -33,5 +34,15 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> findAllProductsContain(String namePart) {
         return productRepository.findAllProductsContain(namePart);
+    }
+
+    @Override
+    public Product getById(long id) {
+        return productRepository.getById(id);
+    }
+
+    @Override
+    public List<Product> getAllByCriteria(Map<String, String> params) {
+        return null;
     }
 }
