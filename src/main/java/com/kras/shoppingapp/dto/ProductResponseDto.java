@@ -12,4 +12,5 @@ public class ProductResponseDto {
     private Long id;
     private BigDecimal price;
     private String title;
+    private Long categoryId;
 }

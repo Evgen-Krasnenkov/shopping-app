@@ -45,4 +45,20 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> getAllByCriteria(Map<String, String> params) {
         return null;
     }
+
+    @Override
+    public void deleteById(Long id) {
+        productRepository.deleteById(id);
+    }
+
+    @Override
+    public Product updateProduct(Product product){
+        return productRepository.updateProduct(product.getId(), product.getTitle(),
+                                      product.getPrice(), product.getCategory().getId());
+    }
+
+    @Override
+    public List<Product> findAllByCategories(long from, long to) {
+        return productRepository.findAllByCategories(from, to);
+    }
 }

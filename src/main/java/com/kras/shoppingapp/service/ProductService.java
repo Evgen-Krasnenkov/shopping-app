@@ -16,4 +16,10 @@ public interface ProductService {
     Product getById(long id);
 
     List<Product> getAllByCriteria(Map<String, String> params);
+
+    void deleteById(Long id);
+
+    Product updateProduct(Product product);
+
+    List<Product> findAllByCategories(long from, long to);
 }

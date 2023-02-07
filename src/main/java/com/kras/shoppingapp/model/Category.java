@@ -4,18 +4,13 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
-
-@Data
 @Entity
-@Table(name = "products")
+@Table(name = "categories")
+@Data
 @Component
-public class Product {
+public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String title;
-    private BigDecimal price;
-    @ManyToOne
-    private Category category;
+    private String name;
 }

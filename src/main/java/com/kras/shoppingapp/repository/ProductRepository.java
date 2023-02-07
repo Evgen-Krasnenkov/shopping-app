@@ -12,6 +12,11 @@ import java.util.List;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findAllByPriceBetween(BigDecimal from, BigDecimal to);
-    @Query(value = "select p from Product p where p.title like %:name%")
+    @Query(value = "select p from Product p where p.title like :name")
     List<Product> findAllProductsContain(@Param("name") String name);
+    @Query(value = "update Product p set p.title = ?2, p.price = ?3, p.category = ?4 where id = ?1")
+    Product updateProduct(Long id, String title, BigDecimal price, Long categoryId);
+
+    @Query(value = "select p from Product p join Category c on c.id = p.category.id where c.id between ?1 and ?2")
+    List<Product> findAllByCategories(long from, long to);
 }
