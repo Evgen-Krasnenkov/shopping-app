@@ -1,9 +1,13 @@
 package com.kras.shoppingapp.repository;
 
+import com.kras.shoppingapp.model.Category;
 import com.kras.shoppingapp.model.Product;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -37,8 +41,14 @@ class ProductRepositoryTest {
     @Autowired
     private ProductRepository productRepository;
 
-    @BeforeEach
-    void setUp() {
+    @Mock
+    private CategoryRepository categoryRepository;
+
+
+    @BeforeAll
+    @Sql("/scripts/insertCategories.sql")
+    static void setUp() {
+
     }
 
     @Test
@@ -50,15 +60,22 @@ class ProductRepositoryTest {
     }
 
     @Test
+    @Sql("/scripts/insertProducts.sql")
     void findAllProductsContainOK() {
         List<Product> x = productRepository.findAllProductsContain("iPhoneX");
         Assertions.assertEquals(1, x.size());
     }
-//
-//    @Test
-//    void updateProduct() {
-//    }
-//
+
+    @Test
+    @Sql("/scripts/insertProducts.sql")
+    void updateProduct() {
+        Mockito.when(categoryRepository.getReferenceById(1l)).thenReturn( new Category(1L, "random"));
+        Long newIphoneX = Long.valueOf(productRepository.
+                updateProduct(1L, "NewIphoneX", BigDecimal.valueOf(1005), categoryRepository.getReferenceById(1l)));
+        Product referenceById = productRepository.getReferenceById(newIphoneX);
+        Assertions.assertEquals("NewIphoneX", referenceById.getTitle());
+    }
+//TODO
 //    @Test
 //    void findAllByCategories() {
 //    }

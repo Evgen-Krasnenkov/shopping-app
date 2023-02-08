@@ -28,10 +28,12 @@ public class CategoryController {
         categoryService.deleteById(id);
     }
 
-//    @PutMapping("/{id}")
-//    public CategoryResponseDto update(@PathVariable Long id, @RequestBody CategoryRequestDto categoryRequestDto){
-//        Category category = categoryMapper.toModel(categoryRequestDto);
-//        category.setId(id);
-//        return categoryMapper.toDto(categoryService.update(category));
-//    }
+    @PutMapping("/{id}")
+    public CategoryResponseDto update(@PathVariable Long id, @RequestBody CategoryRequestDto categoryRequestDto){
+        Category category = categoryMapper.toModel(categoryRequestDto);
+        category.setId(id);
+        Long update =  Long.valueOf(categoryService.update(category));
+        Category byId = categoryService.getById(update);
+        return categoryMapper.toDto(byId);
+    }
 }

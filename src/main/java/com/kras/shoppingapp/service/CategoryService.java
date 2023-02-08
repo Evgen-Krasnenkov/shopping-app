@@ -6,6 +6,6 @@ public interface CategoryService {
     Category getById(Long id);
     Category create(Category category);
     void deleteById(Long id);
-//    Category update(Category category);
+    Integer update(Category category);
 
 }

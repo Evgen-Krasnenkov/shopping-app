@@ -22,4 +22,6 @@ public interface ProductService {
     Product updateProduct(Product product);
 
     List<Product> findAllByCategories(long from, long to);
+
+    List<String> getProductsToUpperCase();
 }
