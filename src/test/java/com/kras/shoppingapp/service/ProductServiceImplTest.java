@@ -24,7 +24,7 @@ class ProductServiceImplTest {
     void getProductsToUpperCaseOK() {
 
         Mockito.when(productRepository.findAll())
-                .thenReturn(List.of(new Product("iPhone", BigDecimal.valueOf(1200), new Category())));
+                .thenReturn(List.of(new Product(1L, "iPhone", BigDecimal.valueOf(1200), new Category())));
         List<String> productsToUpperCase = productService.getProductsToUpperCase();
         Assertions.assertEquals(1, productsToUpperCase.size());
         Assertions.assertEquals("IPHONE", productsToUpperCase.get(0));

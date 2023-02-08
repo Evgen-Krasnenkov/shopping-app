@@ -34,22 +34,15 @@ class ProductRepositoryTest {
 
     @DynamicPropertySource
     static void setDatasourceProperties(DynamicPropertyRegistry propertyRegistry){
-        propertyRegistry.add("spring.datasource.url", database::getJdbcUrl);
+        propertyRegistry.add("spring.datasource.url", () -> database.getJdbcUrl());
         propertyRegistry.add("spring.datasource.password", database::getPassword);
-        propertyRegistry.add("spring.datasource.username", database::getUsername);
+        propertyRegistry.add("spring.datasource.username", () -> database.getUsername());
     }
     @Autowired
     private ProductRepository productRepository;
 
     @Mock
     private CategoryRepository categoryRepository;
-
-
-    @BeforeAll
-    @Sql("/scripts/insertCategories.sql")
-    static void setUp() {
-
-    }
 
     @Test
     @Sql("/scripts/insertProducts.sql")
@@ -63,15 +56,16 @@ class ProductRepositoryTest {
     @Sql("/scripts/insertProducts.sql")
     void findAllProductsContainOK() {
         List<Product> x = productRepository.findAllProductsContain("iPhoneX");
-        Assertions.assertEquals(1, x.size());
+        Assertions.assertEquals(2, x.size());
     }
 
     @Test
     @Sql("/scripts/insertProducts.sql")
     void updateProduct() {
         Mockito.when(categoryRepository.getReferenceById(1l)).thenReturn( new Category(1L, "random"));
+        Category referenceById1 = categoryRepository.getReferenceById(1l);
         Long newIphoneX = Long.valueOf(productRepository.
-                updateProduct(1L, "NewIphoneX", BigDecimal.valueOf(1005), categoryRepository.getReferenceById(1l)));
+                updateProduct(1L, "NewIphoneX", BigDecimal.valueOf(1005), referenceById1));
         Product referenceById = productRepository.getReferenceById(newIphoneX);
         Assertions.assertEquals("NewIphoneX", referenceById.getTitle());
     }

@@ -17,7 +17,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findAllByPriceBetween(BigDecimal from, BigDecimal to);
     @Query(value = "select p from Product p where p.title like %:name%")
     List<Product> findAllProductsContain(@Param("name") String name);
-    @Transactional
+//    @Transactional
     @Modifying
     @Query("update Product p set p.title = ?2, p.price = ?3, p.category = ?4 where p.id = ?1")
     Integer updateProduct(Long id, String title, BigDecimal price, Category category);
