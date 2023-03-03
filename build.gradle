@@ -25,7 +25,6 @@ dependencies {
 	testImplementation group: 'org.testcontainers', name: 'junit-jupiter', version: "${testcontainersVersion}"
 	testImplementation group: 'org.testcontainers', name: 'mysql', version: "${testcontainersVersion}"
 	testImplementation group: 'io.rest-assured', name: 'spring-mock-mvc', version: "${restAssuredVersion}"
-	testImplementation 'javax.servlet:javax.servlet-api:4.0.1'
 	implementation group: 'org.testcontainers', name: 'testcontainers-bom', version: "${testcontainersBomVersion}", ext: 'pom'
 
 }
