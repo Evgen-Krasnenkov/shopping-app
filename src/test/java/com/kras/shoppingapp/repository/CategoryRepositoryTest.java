@@ -35,17 +35,17 @@ class CategoryRepositoryTest {
     private CategoryRepository categoryRepository;
 
     @Test
-    @Sql("/scripts/insertCategories.sql")
+    @Sql("/scripts/insertProducts.sql")
     void getAllOK(){
         List<Category> all = categoryRepository.findAll();
         Assertions.assertEquals(2, all.size());
     }
 
     @Test
-    @Sql("/scripts/insertCategories.sql")
+    @Sql("/scripts/insertProducts.sql")
     void updateCategory(){
-        long supersmartId = Long.valueOf(categoryRepository.update(1L, "Supersmart"));
+        long supersmartId = Long.valueOf(categoryRepository.update(1L, "Smartphone"));
         Category referenceById = categoryRepository.getReferenceById(supersmartId);
-        Assertions.assertEquals("Supersmart", referenceById.getName());
+        Assertions.assertEquals("Smartphone", referenceById.getName());
     }
 }
