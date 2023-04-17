@@ -23,7 +23,7 @@ import java.util.List;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc(addFilters = false)
-@Ignore
+
 class ProductControllerTest {
     @MockBean
     private ProductServiceImpl productService;
@@ -36,7 +36,6 @@ class ProductControllerTest {
     }
 
     @Test
-    @Ignore
     void findAllProductOK() {
         List<Product> mockProducts = List.of(
           new Product(41L, "iPhoneX", BigDecimal.valueOf(999), new Category(1L, "Phones")),
