@@ -30,10 +30,11 @@ public class ProductController {
 
     @GetMapping
     public List<ProductResponseDto> getAll(){
-        return productService.findAll()
-                .stream()
+        List<Product> all = productService.findAll();
+        List<ProductResponseDto> collect = all.stream()
                 .map(productMapper::toResponseDto)
                 .collect(Collectors.toList());
+        return collect;
     }
 
     @GetMapping(value = "/{id}")

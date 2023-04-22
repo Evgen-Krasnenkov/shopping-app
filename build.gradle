@@ -2,7 +2,6 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version "${springBootVersion}" //apply false
 	id 'io.spring.dependency-management' version "${springDepManagmentVersion}"
-	id "io.freefair.lombok" version "6.6.1"
 }
 
 group = 'com.kras'
@@ -20,6 +19,11 @@ dependencies {
 	implementation 'com.fasterxml.jackson.core:jackson-databind'
 	implementation 'com.h2database:h2'
 	implementation group: 'com.mysql', name: 'mysql-connector-j', version: '8.0.33'
+	compileOnly 'org.projectlombok:lombok:1.18.26'
+	annotationProcessor 'org.projectlombok:lombok:1.18.26'
+
+	testCompileOnly 'org.projectlombok:lombok:1.18.26'
+	testAnnotationProcessor 'org.projectlombok:lombok:1.18.26'
 
 	implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: "${openApiVersion}"
 //	developmentOnly 'org.springframework.boot:spring-boot-devtools'
